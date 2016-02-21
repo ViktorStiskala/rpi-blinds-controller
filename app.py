@@ -5,6 +5,11 @@ from flask.views import View
 
 app = Flask(__name__)
 
+blinds = Blinds('/var/run/blinds.channel')
+app.config.update(
+    blinds=blinds
+)
+
 directions = {
     'up': 'trigger_up',
     'down': 'trigger_down',
@@ -81,11 +86,6 @@ def status():
 
 if __name__ == '__main__':
     try:
-        blinds = Blinds('/var/run/blinds.channel')
-        app.config.update(
-            blinds=blinds
-        )
-
         app.run(host='0.0.0.0')
     finally:
         Blinds.cleanup()
