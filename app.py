@@ -38,14 +38,14 @@ def blinds_short_move(channel):
     if channel < 0 or channel > 4:
         return make_response(jsonify({'status': 'error', 'reason': 'invalid channel'}), 400)
 
-    data = request.get_json()
+    data = request.get_json(force=True)
     try:
         direction = data['direction']
         duration = int(data['duration'])
     except (KeyError, ValueError):
         return make_response(jsonify({
             'status': 'error',
-            'reason': 'Invalid payload. Please check Content-Type: application/json and payload data'
+            'reason': 'Invalid payload. Please check payload data'
         }), 400)
 
     if direction == 'up':
@@ -64,6 +64,20 @@ def blinds_short_move(channel):
     blinds.trigger_my()
 
     return jsonify({'status': 'ok'})
+
+@app.route('/blinds/status/', methods=['GET', 'POST'])
+def status():
+    blinds = app.config['blinds']
+    if request.method == 'POST':
+        data = request.get_json(force=True)
+        try:
+            channel = int(data['channel']) - 1
+            if channel < 0 or channel > 4:
+                return make_response(jsonify({'status': 'error', 'reason': 'invalid channel'}), 400)
+            blinds.set_channel(channel)
+        except (KeyError, ValueError):
+            return make_response(jsonify({'status': 'error', 'reason': 'invalid payload'}), 400)
+    return jsonify({'channel': blinds.channel + 1})
 
 if __name__ == '__main__':
     try:
