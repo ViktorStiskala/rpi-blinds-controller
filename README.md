@@ -1,5 +1,3 @@
-# README #
-
 # Blinds #
 
 Somfy blinds controller using RPi GPIO.
@@ -41,5 +39,3 @@ Button can be one of `up`, `down` or `my`.
     "channel": 5
 }
 ```
-
-
