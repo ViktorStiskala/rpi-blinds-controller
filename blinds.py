@@ -45,6 +45,9 @@ class Blinds:
         GPIO.output(channel, GPIO.HIGH)
         self._sleep()
 
+        # button press resets LED blinking
+        self._last_trigger = None
+
     def set_channel(self, final):
         if self.channel == final:
             return

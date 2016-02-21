@@ -58,6 +58,7 @@ def blinds_short_move(channel):
     if not 0 < duration < 2000:
         return make_response(jsonify({'status': 'error', 'reason': 'duration have to be between 0 and 2000'}), 400)
 
+    blinds.set_channel(channel)
     trigger()
     time.sleep(duration / 1000)
     blinds.trigger_my()
