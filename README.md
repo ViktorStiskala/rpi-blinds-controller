@@ -1,11 +1,14 @@
-# Blinds #
+# Blinds API #
 
 Somfy blinds controller using RPi GPIO.
 
-## API ##
+Channel numbers are the same as on the remote controller itself, starting from 1. Channel 5 is the channel when all LEDs are blinking.
 
+Somfy Telis remote controller is stateless meaning that individual commands can affect the ones sent previously. For example sending `my` shortly after `down` or `up` will cancel the previous movement. It is up to you to add delays accordingly.
 
-### Button press ###
+## Movement ##
+
+### Move to specified position ###
 
 `PUT /blinds/channel/5/down/`
 
@@ -19,8 +22,13 @@ Button can be one of `up`, `down` or `my`.
     "duration": 200
 }
 ```
+Direction can be either `up` or `down`.
+
+Duration means the time in milliseconds between `up` or `down` and stop – `my` button.
 
 ---
+
+## Internal status and debug ##
 
 ### Get current status ###
 
