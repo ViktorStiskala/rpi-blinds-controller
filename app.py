@@ -70,6 +70,7 @@ def blinds_short_move(channel):
 
     return jsonify({'status': 'ok'})
 
+
 @app.route('/blinds/status/', methods=['GET', 'POST'])
 def status():
     blinds = app.config['blinds']
@@ -82,6 +83,19 @@ def status():
             blinds.set_channel(channel)
         except (KeyError, ValueError):
             return make_response(jsonify({'status': 'error', 'reason': 'invalid payload'}), 400)
+    return jsonify({'channel': blinds.channel + 1})
+
+
+@app.route('/debug/channel/<int:channel>/', methods=['PUT'])
+def debug_set_channel(channel):
+    blinds = app.config['blinds']
+
+    channel -= 1
+    if channel < 0 or channel > 4:
+        return make_response(jsonify({'status': 'error', 'reason': 'invalid channel'}), 400)
+
+    blinds.save_channel(channel)
+
     return jsonify({'channel': blinds.channel + 1})
 
 if __name__ == '__main__':

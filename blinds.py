@@ -26,14 +26,17 @@ class Blinds:
             with open(channel_file, 'r') as f:
                 self.channel = int(f.readline())
         except FileNotFoundError:
-            self._save_channel(0)
+            self.save_channel(0)
         except ValueError:
             sys.stderr.write('Invalid content in channel file')
 
     def _sleep(self):
         time.sleep(self.BOARD_SLEEP_TIME)
 
-    def _save_channel(self, channel):
+    def save_channel(self, channel):
+        """
+        Sets internal channel without accessing remote
+        """
         self.channel = channel
         with open(self._channel_file, 'w') as f:
             f.write(str(self.channel))
@@ -65,7 +68,7 @@ class Blinds:
 
         self._last_trigger = time.perf_counter()
 
-        self._save_channel(final)
+        self.save_channel(final)
 
     def trigger_down(self):
         self._trigger(self.PIN_DOWN)
