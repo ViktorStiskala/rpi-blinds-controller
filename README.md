@@ -47,3 +47,14 @@ Duration means the time in milliseconds between `up` or `down` and stop – `my`
     "channel": 5
 }
 ```
+
+### Set channel without accesing remote ###
+
+Can be used when internal state is different from remote state
+
+`PUT /blinds/debug/channel/<int:channel>/`
+```json
+{
+    "channel": 5
+}
+```
