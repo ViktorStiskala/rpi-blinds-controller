@@ -5,7 +5,7 @@ from flask.views import View
 
 app = Flask(__name__)
 
-blinds = Blinds('/var/run/blinds.channel')
+blinds = Blinds('/etc/blinds.channel')
 app.config.update(
     blinds=blinds
 )
